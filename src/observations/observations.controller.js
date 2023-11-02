@@ -133,10 +133,12 @@ async function update(req, res) {
 
 module.exports = {
     create: [
-        hasData, 
-        hasLatitude, 
-        hasLongitude, 
-        hasSkyCondition, 
+        hasData,
+        hasLatitude,
+        hasLongitude,
+        hasSkyCondition,
+        hasAirTemperature,
+        hasAirTemperatureUnit,
         asyncErrorBoundary(create)
     ],
     list: asyncErrorBoundary(list),
