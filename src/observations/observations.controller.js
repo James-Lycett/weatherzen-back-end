@@ -10,7 +10,7 @@ function hasData(req, res, next) {
     }
     next({
         status: 400,
-        message:"body ust have data property"
+        message:"body must have data property"
     })
 }
 
@@ -62,7 +62,35 @@ async function list(req, res) {
     })
 }
 
+async function read(req, res) {
+    const { observationId } = req.params
+    const data = await service.read(observationId)
+    res.json({ data })
+}
+
+async function observationExists(req, res, next) {
+    const { observationId } = req.params
+  
+    const observation = await service.read(observationId);
+    if (observation) {
+      res.locals.observation = observation
+      return next();
+    }
+    return next({ status: 404, message: `Observation cannot be found.` });
+  }
+
+async function update(req, res) {     
+    const updatedObservation = {
+        ...req.body.data,
+        observation_id: res.locals.observation.observation_id
+    }
+    const data = await service.update(updatedObservation)
+    res.json({ data })
+}
+
 module.exports = {
     create: [hasData, hasLatitude, hasLongitude, hasSkyCondition, asyncErrorBoundary(create)],
-    list: asyncErrorBoundary(list)
+    list: asyncErrorBoundary(list),
+    read: asyncErrorBoundary(read),
+    update: [hasData, hasLatitude, hasLongitude, observationExists, asyncErrorBoundary(update)]
 }

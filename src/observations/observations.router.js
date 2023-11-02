@@ -7,4 +7,10 @@ router.route("/")
 .get(controller.list)
 .all(methodNotAllowed)
 
+router.route("/edit/:observationId")
+.get(controller.read)
+.put(controller.update)
+.all(methodNotAllowed)
+
+
 module.exports = router
