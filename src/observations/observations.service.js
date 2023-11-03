@@ -1,5 +1,7 @@
 const knex = require("../db/connection")
 
+// CRUDL functions for observations database
+
 function create(newObservation) {
     return knex("observations")
         .insert(newObservation)
@@ -15,7 +17,7 @@ async function read(observationId) {
     return knex("observations")
     .select("*")
     .where({ observation_id: observationId })
-    .then((returnedData) => returnedData[0])
+    .then((createdRecords) => createdRecords[0])
 }
 
 async function update(updatedObservation) {
