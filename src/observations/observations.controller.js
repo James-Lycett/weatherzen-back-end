@@ -1,11 +1,11 @@
 const service = require("./observations.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 
-// functions to handle CRUDL requests
+// Functions to handle CRUDL requests
 
 const validSkyConditions = [100, 101, 102, 103, 104, 106, 108, 109]
 
-// request body validation
+// Request body validation
 function hasData(req, res, next) {
     if (req.body.data) {
         return next()
@@ -20,6 +20,7 @@ function hasData(req, res, next) {
 // latitude request property validation
 function hasLatitude(req, res, next) {
     const latitude = Number(req.body.data.latitude)
+
     if (latitude >= -90 && latitude <= 90) {
         return next()
     } else {
@@ -33,6 +34,7 @@ function hasLatitude(req, res, next) {
 // longitude request property validation
 function hasLongitude(req, res, next) {
     const longitude = Number(req.body.data.longitude)
+
     if (longitude >= -180 && longitude <= 180) {
         return next()
     } else {
@@ -46,6 +48,7 @@ function hasLongitude(req, res, next) {
 // sky_condition request property validation
 function hasSkyCondition(req, res, next) {
     const skyCondition = Number(req.body.data.sky_condition)
+
     if (validSkyConditions.includes(skyCondition)) {
         return next()
     } else {
@@ -59,6 +62,7 @@ function hasSkyCondition(req, res, next) {
 // air_temperature_unit request property validation, should run BEFORE 'hasAirTemperature' which also references this data
 function hasAirTemperatureUnit(req, res, next) {
     const airTemperatureUnit = req.body.data.air_temperature_unit
+
     if (airTemperatureUnit.toUpperCase() === "C" || airTemperatureUnit.toUpperCase() === "F" ) {
         return next()
     } else {
@@ -73,6 +77,7 @@ function hasAirTemperatureUnit(req, res, next) {
 function hasAirTemperature(req, res, next) {
     const airTemperature = Number(req.body.data.air_temperature)
     const airTemperatureUnit = req.body.data.air_temperature_unit
+
     if (airTemperatureUnit.toUpperCase() === "C" && airTemperature > -50 && airTemperature < 107) {
         return next()
     } else if (airTemperatureUnit.toUpperCase() === "F" && airTemperature > -60 && airTemperature < 224) {
@@ -97,6 +102,7 @@ async function create(req, res) {
 // GET all request handler
 async function list(req, res) {
     const data = await service.list()
+
     res.json({
         data,
     })
@@ -106,19 +112,21 @@ async function list(req, res) {
 async function read(req, res) {
     const { observationId } = req.params
     const data = await service.read(observationId)
+
     res.json({ data })
 }
 
 // check database for observation with given id
 async function observationExists(req, res, next) {
     const { observationId } = req.params
-  
-    const observation = await service.read(observationId);
+    const observation = await service.read(observationId)
+
     if (observation) {
       res.locals.observation = observation
       return next();
+    } else {
+        return next({ status: 404, message: `Observation cannot be found.` })
     }
-    return next({ status: 404, message: `Observation cannot be found.` });
 }
 
 // PUT request handler
@@ -128,6 +136,7 @@ async function update(req, res) {
         observation_id: res.locals.observation.observation_id
     }
     const data = await service.update(updatedObservation)
+
     res.json({ data })
 }
 

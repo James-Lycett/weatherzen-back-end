@@ -4,11 +4,11 @@ exports.up = function(knex) {
     table.integer("air_temperature", null);
     table.string("air_temperature_unit", null);
   })
-};
+}
 
 exports.down = function(knex) {
   return knex.schema.alterTable("observations", (table) => {
     table.dropColumn("air_temperature");
     table.dropColumn("air_temperature_unit");
   })
-};
+}
