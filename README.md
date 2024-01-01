@@ -1,5 +1,5 @@
-# WeatherZen Backend Application
-The backend app for WeatherZen Frontend application. Performs GET, POST, and PUT functions for weather observations
+# WeatherZen API
+RESTful API for recording weather observations. Performs GET, POST, and PUT functions for observations.
 
 ## Link
 https://weatherzen-frontend.onrender.com/
