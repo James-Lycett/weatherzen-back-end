@@ -1,34 +1,35 @@
 # WeatherZen Backend Application
+The backend app for WeatherZen Frontend application. Performs GET, POST, and PUT functions for weather observations
+
+## Link
+https://weatherzen-frontend.onrender.com/
+
+## How to Use:
+### GET Requests
+Sending a GET request to https://weatherzen-frontend.onrender.com/ will return a list of all recorded observations, in order of observation id.
+Sending a GET request to https://weatherzen-frontend.onrender.com/edit/:observationId,  where :observationId is the id of a specific observation, will return that observation only
+<br/>
+
+### POST Requests
+Will save the observation and respond with the newly created observation
 
 
-This starter code for the "Connecting it all" module in the Thinkful curriculum.
+POST request body must have the following format:
+<br>{
+  <br>&nbsp;&nbsp;"data": {
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"latitude": integer > -180 && < 180,
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"longitude": integer > -180 && < 180",
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"sky_condition": "string",
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"air_temperature_unit": "string" = "F" || "C",
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"air_temperature": integer > -60F (or -40C) && < 224F (or 107C)
+  <br>&nbsp;&nbsp;}
+<br>}
 
-## Existing files
+### PUT Requests
+Will update an existing observation.
+Only allowed at https://weatherzen-frontend.onrender.com/edit/:observationId
 
-As you work through the Node.js, Express & PostgreSQL module, you will be writing code that allows your controllers to connect to and query your PostgreSQL database via [Knex](http://knexjs.org/). The table below describes the files and folders in the starter code:
+PUT request body must have the same format as POST requests
 
-| Folder/file path                 | Description                                                                                                           |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `src/app.js`                     | Directs requests to the appropriate routers.                                                                          |
-| `src/server.js`                  | Starts the server on `localhost:5000` by default.                                                                     |
-| `src/db/`                        | A folder where you will add migration and seed files for your database later on.                                      |
-| `src/errors/`                    | A folder where you will find several functions for handle various errors                                   |
-| `.env.sample`                    | A sample environment configuration file                                                                               |
-
-
-This starter code closely follows the best practices and patterns established in the Robust Server Structure module.
-
-## Database setup
-
-1. Set up a new ElephantSQL database instance by following the instructions in the "PostgreSQL: Creating & Deleting Databases" checkpoint.
-1. After setting up your database instance, connect DBeaver to your new database instance by following the instructions in the "PostgreSQL: Installing DBeaver" checkpoint.
-
-## Installation
-
-1. Fork and clone this repository.
-1. Run `cp .env.sample .env`.
-1. Update your `.env` file with a connection URL to your ElephantSQL database instance.
-1. Run `npm install` to install project dependencies.
-1. Run `npm run start:dev` to start your server in development mode.
-
-If you have trouble getting the server to run, reach out for assistance.
+## Technologies Used
+Node.js, Express.js, Knex.js, PostgreSQL
