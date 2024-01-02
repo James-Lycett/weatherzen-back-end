@@ -1,5 +1,6 @@
 const service = require("./observations.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
+const moment = require("moment")
 
 // Functions to handle CRUDL requests
 
@@ -101,7 +102,51 @@ async function create(req, res) {
 
 // GET all request handler
 async function list(req, res) {
-    const data = await service.list()
+    const dbData = await service.list()
+
+    // A more human-readable datetime format
+    function formatTimestamp(timestamp) {
+        return moment(timestamp).format("LLLL");
+    }
+
+    // convert sky_condition from numeric code to actual text value
+    function decodeSkyCondition(code) {
+        switch(code) {
+            case 100:
+                return "Cloudless"
+            case 101:
+                return "Some clouds"
+            case 102:
+                return "Cloud covered"
+            case 103:
+                return "Foggy"
+            case 104:
+                return "Raining"
+            case 106:
+                return "Snowing"
+            case 108:
+                return "Hailing"
+            case 109:
+                return "Thunderstorms"
+            default:
+                return "Unknown"
+        }
+    }
+
+    function formatData(unformattedData) {
+        const formattedData = []
+        unformattedData.forEach((observation) => {
+            formattedData.push({
+                ...observation,
+                created_at: formatTimestamp(observation.created_at),
+                sky_condition: decodeSkyCondition(observation.sky_condition)
+            })
+        })
+
+        return formattedData
+    }
+
+    const data = formatData(dbData)
 
     res.json({
         data,
