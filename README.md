@@ -4,6 +4,14 @@ RESTful API for recording weather observations. Performs GET, POST, and PUT func
 ## Link
 https://weatherzen-frontend.onrender.com/
 
+## Technoglogy
+ - JavaScript
+ - Node.js
+ - Express
+ - Knex
+ - PostgreSQL
+The web service is deployed using Render
+
 ## How to Use:
 ### GET Requests
 Sending a GET request to https://weatherzen-frontend.onrender.com/ will return a list of all recorded observations, in order of observation id.
@@ -31,5 +39,3 @@ Only allowed at https://weatherzen-frontend.onrender.com/edit/:observationId
 
 PUT request body must have the same format as POST requests
 
-## Technologies Used
-Node.js, Express.js, Knex.js, PostgreSQL
