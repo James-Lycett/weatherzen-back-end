@@ -1,37 +1,35 @@
-# weLoveMovies
-weLoveMovies is a REST API designed to serve theater sites with theater and movie information including theater addresses, what movies they are showing, and information about the movies, including reviews.
+# WeatherZen API
+RESTful API for recording weather observations. Performs GET, POST, and PUT functions for observations.
 
-## How to use weLoveMovies API
-### /theaters Route
-- The /theaters route currently only accepts GET requests, which will return a list of all theaters
+## Link
+https://weatherzen-frontend.onrender.com/
 
-### /movies Route
-- The /movies route currently only accepts GET requests, which will return a list of all movies.<br>
-- GET requests to /movies can have the optional parameter ?is_showing=true to list all movies that are currently showing in theaters or vice versa if ?is_showing=false<br>
-- GET requests to /movies/:movieId where movieId is a number corresponding to the movie_id property of a movie will return a single movie with the given id or 404 "Movie cannot be found"<br>
-- GET requests to /movies/:movieId/theaters will return all of the theaters where the movie with the given id is showing<br>
-- GET requests to /movies/:movieId/reviews will return all of the reviews for the movie with the given id<br>
+## How to Use:
+### GET Requests
+Sending a GET request to https://weatherzen-frontend.onrender.com/ will return a list of all recorded observations, in order of observation id.
+Sending a GET request to https://weatherzen-frontend.onrender.com/edit/:observationId,  where :observationId is the id of a specific observation, will return that observation only
+<br/>
 
-### /reviews Route
-- The /reviews route currently does not accept requests without a /:reviewId parameter<br>
-- GET requests to /reviews/:reviewId where reviewId is a number corresponding to the review_id of a review will return a single review with the given id or 404 if the review does not exist<br>
-- PUT requests to /reviews/:reviewId will update the review with the given id and return the updated review<br>
+### POST Requests
+Will save the observation and respond with the newly created observation
 
-&nbsp;&nbsp;PUT request body should have the following format:<br>
-&nbsp;&nbsp;Example:
-&nbsp;&nbsp;&nbsp;&nbsp;<br>{
- &nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;"data": {
-    &nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;"content": "New content...",
-    &nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;"score": 3,
-    &nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;"critic_id": 2,   
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;<br>}
 
-- DELETE requests to /reviews/:reviewId will delete the review from the database<br>
+POST request body must have the following format:
+<br>{
+  <br>&nbsp;&nbsp;"data": {
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"latitude": integer > -180 && < 180,
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"longitude": integer > -180 && < 180",
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"sky_condition": "string",
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"air_temperature_unit": "string" = "F" || "C",
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;"air_temperature": integer > -60F (or -40C) && < 224F (or 107C)
+  <br>&nbsp;&nbsp;}
+<br>}
 
-## Links
-The API is currently deployed here: https://welovemovies-backend-ksdj.onrender.com
+### PUT Requests
+Will update an existing observation.
+Only allowed at https://weatherzen-frontend.onrender.com/edit/:observationId
 
-A demo frontend app that uses the API can be found here: https://github.com/James-Lycett/weLoveMovies-frontend
+PUT request body must have the same format as POST requests
 
-The demo frontend app is currently deployed here: https://welovemovies-frontend-zsml.onrender.com
+## Technologies Used
+Node.js, Express.js, Knex.js, PostgreSQL
